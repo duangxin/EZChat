@@ -1,4 +1,6 @@
 QT       += core gui
+QT       += network
+TARGET = EZChat
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -26,6 +28,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 RESOURCES += \
     GUI/resources.qrc
+
 
 
 
