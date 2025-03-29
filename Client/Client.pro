@@ -1,6 +1,6 @@
 QT       += core gui
 QT       += network
-TARGET = EZChat
+QT       += sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -11,13 +11,25 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    Controller/clientcontroller.cpp \
+    Utilities/movewidgetevent.cpp \
+    database.cpp \
+    login.cpp \
     main.cpp \
+    register.cpp \
     widget.cpp
 
 HEADERS += \
+    Controller/clientcontroller.h \
+    Utilities/movewidgetevent.h \
+    database.h \
+    login.h \
+    register.h \
     widget.h
 
 FORMS += \
+    login.ui \
+    register.ui \
     widget.ui
 
 # Default rules for deployment.

@@ -19,19 +19,13 @@ public:
     ~Widget();
 
 protected:
-    //在centralwidget区域可以拖动
-    void mousePressEvent(QMouseEvent *event) override;
-    void mouseMoveEvent(QMouseEvent *event) override;
-    void mouseReleaseEvent(QMouseEvent *event) override;
 
 private slots:
-    void on_closeButton_clicked();
+    void on_closeButton_clicked();  //最小化
 
-    void on_minimizeButton_clicked();
+    void on_minimizeButton_clicked();   //关闭窗口
 
 private:
     Ui::Widget *ui;
-    bool isDragging; //是否在拖动
-    QPoint lastMousePos;
 };
 #endif // WIDGET_H
