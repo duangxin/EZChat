@@ -154,7 +154,7 @@ background-color: rgba(203, 203, 203, 150);
      <string/>
     </property>
     <property name="placeholderText">
-     <string>请输入用户名</string>
+     <string>请输入ID</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="pswEdit">

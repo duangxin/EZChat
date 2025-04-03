@@ -12,25 +12,41 @@ CONFIG += c++17
 
 SOURCES += \
     Controller/clientcontroller.cpp \
-    Utilities/movewidgetevent.cpp \
+    Controller/clientcontroller_log_reg.cpp \
+    DataModel/msg.cpp \
+    DataModel/userinfo.cpp \
+    GUI/login.cpp \
+    GUI/register.cpp \
+    GUI/tipbox.cpp \
+    GUI/widget.cpp \
+    Network/tcpclientsocket.cpp \
+    Utilities/encryption.cpp \
     database.cpp \
-    login.cpp \
-    main.cpp \
-    register.cpp \
-    widget.cpp
+    Utilities/movewidgetevent.cpp \
+    main.cpp
+
 
 HEADERS += \
     Controller/clientcontroller.h \
-    Utilities/movewidgetevent.h \
+    DataModel/datamodel.h \
+    DataModel/msg.h \
+    DataModel/userinfo.h \
+    GUI/login.h \
+    GUI/register.h \
+    GUI/tipbox.h \
+    GUI/widget.h \
+    Network/tcpclientsocket.h \
+    Utilities/encryption.h \
     database.h \
-    login.h \
-    register.h \
-    widget.h
+    Utilities/movewidgetevent.h
+
+
 
 FORMS += \
-    login.ui \
-    register.ui \
-    widget.ui
+    GUI/login.ui \
+    GUI/register.ui \
+    GUI/tipbox.ui \
+    GUI/widget.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
