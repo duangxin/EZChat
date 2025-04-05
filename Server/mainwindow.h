@@ -17,6 +17,12 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+private slots:
+
+    void showLog(QString );
+
+    void scrollToBottom();
+
 private:
     Ui::MainWindow *ui;
 };

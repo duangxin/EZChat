@@ -1,4 +1,5 @@
 #include "server.h"
+#include "Utilities/record.h"
 #include <QMessageBox>
 Server::Server(QObject *parent)
     : QObject{parent},
@@ -13,11 +14,11 @@ void Server::start(int port)
     if (!m_tcpServer->listen(QHostAddress::Any, port)) {
         QMessageBox::warning(nullptr, "错误",
                              "无法监听端口，可能是该端口已被占用");
-        qDebug() << "Server listen error:" << m_tcpServer->errorString();
-        return; // 提前退出
+        Record::getRecord()->writeRecord( "Server listen error:" + m_tcpServer->errorString());
     }
+    return; // 提前退出
+    Record::getRecord()->writeRecord( "Server started, listening on port:" + QString::number(port));
 
-    qDebug() << "Server started, listening on port:" << port;
 }
 
 void Server::stop()
@@ -57,15 +58,15 @@ void Server::onNewConnection(QTcpSocket* socket) {
     addClient(id, client);
 
     connect(client, &TcpClientSocket::dataReceived, this, [=](QByteArray data){
-        qDebug() << "收到客户端" << id << "的数据：" << data;
+        Record::getRecord()->writeRecord( QString("收到客户端%1的数据：%2").arg(id).arg(data));
         // TODO：调用消息处理模块
     });
 
     connect(client, &TcpClientSocket::clientDisconnected, this, [=](){
         deleteClient(id);
         client->deleteLater();
-        qDebug() << "客户端" << id << "断开连接";
+        Record::getRecord()->writeRecord( QString("客户端%1断开连接").arg(id));
     });
+    Record::getRecord()->writeRecord( QString("新客户端连接，分配ID：%1").arg(id));
 
-    qDebug() << "新客户端连接，分配ID：" << id;
 }

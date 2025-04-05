@@ -19,6 +19,7 @@ SOURCES += \
     Network/tcpserver.cpp \
     main.cpp \
     mainwindow.cpp \
+    Utilities/record.cpp
 
 HEADERS += \
     Controller/servercontroller.h \
@@ -26,7 +27,9 @@ HEADERS += \
     Network/server.h \
     Network/tcpclientsocket.h \
     Network/tcpserver.h \
+    Utilities/stdDateTime.h \
     mainwindow.h \
+    Utilities/record.h
 
 FORMS += \
     mainwindow.ui
