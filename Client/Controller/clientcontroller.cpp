@@ -1,6 +1,6 @@
 #include "clientcontroller.h"
 
-
+QString ClientController::IP = "192.168.0.105";
 
 ClientController::ClientController(QObject* parent) : QObject(parent){
 
@@ -28,19 +28,13 @@ TcpClientSocket* ClientController::getSocket() {
     return socket.get();
 }
 
-QString ClientController::IP = "192.168.6.6";
-
 void ClientController::connectToServer()
 {
     TcpClientSocket* clientSocket = getSocket();
     clientSocket->setServerIP(IP);
     clientSocket->setServerTcpPort(6666);
-    if (!clientSocket->connectToServer()) {
-        qDebug() << "[connectToServer] Connection Failed.";
-    }
-    else {
-        qDebug() << "[connectToServer] Connection Successful.";
-    }
+    clientSocket->connectToServer();
+
 }
 
 

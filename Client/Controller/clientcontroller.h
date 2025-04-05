@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include <memory> //智能指针
-#include "DataModel/datamodel.h"
+#include "datamodel.h"
 #include "Network/tcpclientsocket.h"
 
 class ClientController  : public QObject
@@ -11,7 +11,7 @@ class ClientController  : public QObject
     Q_OBJECT
 public:
     explicit ClientController(QObject* parent = nullptr);
-    ~ClientController();    //要析构一些非 QObject 类型的成员变量
+    //~ClientController();    //要析构一些非 QObject 类型的成员变量
     //单例
     static ClientController* getClientInstance();
     //注册登录

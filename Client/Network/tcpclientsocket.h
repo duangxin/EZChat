@@ -1,7 +1,7 @@
 #ifndef TCPCLIENTSOCKET_H
 #define TCPCLIENTSOCKET_H
 #include <QTcpSocket>
-#include "DataModel/datamodel.h"
+#include "datamodel.h"
 
 class TcpClientSocket : public QTcpSocket
 {
@@ -13,7 +13,7 @@ public:
     QString getServerIP();
     quint16 getServerPort();
 
-    bool connectToServer();
+    void connectToServer();
     void sendMessage(Msg * message);
 
 

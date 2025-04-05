@@ -2,6 +2,7 @@
 #define DATAMODEL_H
 
 //汇总头文件
-#include "DataModel/userinfo.h"
+#include "userinfo.h"
+#include "msg.h"
 
 #endif // DATAMODEL_H

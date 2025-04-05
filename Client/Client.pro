@@ -10,11 +10,11 @@ CONFIG += c++17
 # In order to do so, uncomment the following line.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
+include(../shared/shared.pri)
+
 SOURCES += \
     Controller/clientcontroller.cpp \
     Controller/clientcontroller_log_reg.cpp \
-    DataModel/msg.cpp \
-    DataModel/userinfo.cpp \
     GUI/login.cpp \
     GUI/register.cpp \
     GUI/tipbox.cpp \
@@ -28,9 +28,6 @@ SOURCES += \
 
 HEADERS += \
     Controller/clientcontroller.h \
-    DataModel/datamodel.h \
-    DataModel/msg.h \
-    DataModel/userinfo.h \
     GUI/login.h \
     GUI/register.h \
     GUI/tipbox.h \

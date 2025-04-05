@@ -6,7 +6,7 @@
 #include <QSqlError>
 #include <QDebug>
 
-#include "DataModel/datamodel.h"
+#include "datamodel.h"
 
 class DataBase
 {

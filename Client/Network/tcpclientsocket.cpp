@@ -3,10 +3,17 @@
 TcpClientSocket::TcpClientSocket(QObject *parent) :
     QTcpSocket(parent)
 {
+    //服务器连接状态
+    connect(this, &QTcpSocket::stateChanged, [](QAbstractSocket::SocketState state) {
+        qDebug() << "Socket state changed:" << state;
+    });
+
     //sendMessage是否成功
     connect(this, &QTcpSocket::bytesWritten, this, [](qint64 bytes) {
         qDebug() << bytes << " bytes written successfully.";
     });
+
+
 
 }
 
@@ -30,27 +37,23 @@ quint16 TcpClientSocket::getServerPort()
     return m_serverTcpPort;
 }
 
-bool TcpClientSocket::connectToServer()
+void TcpClientSocket::connectToServer()
 {
     abort();  // 终止当前连接，准备新连接
 
     connectToHost(QHostAddress(this->m_serverIP), this->m_serverTcpPort);
 
-    if (waitForConnected(5000))  // 等待最多 5 秒
-    {
-        return true;  // 连接成功
-    }
-    else
-    {
-        return false;  // 连接失败
-    }
+
 }
 
 void TcpClientSocket::sendMessage(Msg* message)
 {
-    write(message->toQByteArray());
-    //这样会阻塞UI，改用信号与槽
-    // waitForBytesWritten();  //阻塞等待数据写入到底层设备,防止在缓冲区还没发出去
+    if (this->state() == QAbstractSocket::ConnectedState) {
+        write(message->toQByteArray());
+        //这样会阻塞UI，改用信号与槽
+        //waitForBytesWritten();  //阻塞等待数据写入到底层设备,防止在缓冲区还没发出去
+    }
+
 
 }
 
