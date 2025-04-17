@@ -21,9 +21,6 @@ public:
 
 signals:
 
-private slots:
-    void onNewConnection(QTcpSocket* socket);
-
 private:
     TcpServer* m_tcpServer;
     QMap<quint32,TcpClientSocket*> m_clients;

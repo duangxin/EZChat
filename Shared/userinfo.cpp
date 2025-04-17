@@ -23,6 +23,11 @@ QString UserInfo::getAvatarName() const{
     return m_avatar_name;
 }
 
+void UserInfo::setID(quint32 id)
+{
+    m_id = id;
+}
+
 
 
 QByteArray UserInfo::toQByteArray()
@@ -30,7 +35,7 @@ QByteArray UserInfo::toQByteArray()
     //  |4:id|4:nameSize|name|4:pwdSize|pwd|4:avatarSize|avatar|
     QByteArray data;
     QDataStream stream(&data, QIODevice::WriteOnly);
-    stream.setVersion(QDataStream::Qt_6_0);
+    stream.setVersion(QDataStream::Qt_6_7);
     //id
     stream << m_id;
 
@@ -60,7 +65,7 @@ UserInfo UserInfo::fromQByteArray(const QByteArray &data)
     //  |4:id|4:nameSize|name|4:pwdSize|pwd|4:avatarSize|avatar|
     UserInfo tmp;
     QDataStream stream(data);
-    stream.setVersion(QDataStream::Qt_6_0);
+    stream.setVersion(QDataStream::Qt_6_7);
 
     quint32 nameSize, pwdSize, avatarSize;
     QByteArray nameBytes, pwdBytes, avatarBytes;

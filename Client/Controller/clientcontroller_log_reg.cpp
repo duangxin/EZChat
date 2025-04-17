@@ -7,12 +7,20 @@ void ClientController::requestRegister(QString username, QString password){
 
     //密码做一次哈希
     password = Encryption::GetHash(password);
+    UserInfo tmp(0x0000, username, password);
+    auto message = std::make_unique<Msg>(MsgType::REQUEST_REGISTER, tmp.toQByteArray());
 
-    UserInfo tmp = UserInfo(0x0000, username, password);
+    sendMessageWhenConnected(std::move(message));
+}
+//登录
+void ClientController::requestLogin(quint32 id, QString password){
 
-    connectToServer();
+    password = Encryption::GetHash(password);
+    //密码做一次哈希
 
-    getSocket()->sendMessage(std::make_unique<Msg>
-                             (MsgType::REQUEST_REGISTER, tmp.toQByteArray())
-                                 .get());
+    UserInfo tmp(id, "", password);
+    auto message = std::make_unique<Msg>(MsgType::REQUEST_LOGIN, tmp.toQByteArray());
+
+    sendMessageWhenConnected(std::move(message));
+
 }

@@ -16,6 +16,7 @@ public:
     static ClientController* getClientInstance();
     //注册登录
     void requestRegister(QString username, QString password);
+    void requestLogin(quint32 id, QString password);
 
 private:
 
@@ -23,10 +24,11 @@ private:
 
     //类内进行连接服务器
     //负责连接管理，并确保只创建一个TcpClientSocket实例
-    static QString IP;
+    //static QString IP; 定义宏了
     void connectToServer();
     TcpClientSocket* getSocket();
     std::unique_ptr<TcpClientSocket> socket; // 用智能指针代替裸指针
+    void sendMessageWhenConnected(std::unique_ptr<Msg> msg);
 };
 
 #endif // CLIENTCONTROLLER_H

@@ -10,5 +10,6 @@
         <file>img/friendsList.png</file>
         <file>img/account.png</file>
         <file>img/password.png</file>
+        <file>img/justin.jpg</file>
     </qresource>
 </RCC>

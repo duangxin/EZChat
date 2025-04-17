@@ -16,10 +16,14 @@ public:
     void connectToServer();
     void sendMessage(Msg * message);
 
+private slots:
+    void receiveMessage();        // 接收数据
+
 
 protected:
     QString m_serverIP;
     quint16 m_serverTcpPort;
+    quint32 m_blockSize = 0;
 };
 
 #endif // TCPCLIENTSOCKET_H

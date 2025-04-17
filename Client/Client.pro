@@ -19,6 +19,9 @@ SOURCES += \
     GUI/register.cpp \
     GUI/tipbox.cpp \
     GUI/widget.cpp \
+    Network/Handler/loginhandler.cpp \
+    Network/Handler/registerhandler.cpp \
+    Network/clienthandlerreg.cpp \
     Network/tcpclientsocket.cpp \
     Utilities/encryption.cpp \
     database.cpp \
@@ -32,7 +35,12 @@ HEADERS += \
     GUI/register.h \
     GUI/tipbox.h \
     GUI/widget.h \
+    Network/Handler/MsgHandler.h \
+    Network/Handler/loginhandler.h \
+    Network/Handler/registerhandler.h \
+    Network/clienthandlerreg.h \
     Network/tcpclientsocket.h \
+    Utilities/config.h \
     Utilities/encryption.h \
     database.h \
     Utilities/movewidgetevent.h

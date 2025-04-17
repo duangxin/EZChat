@@ -11,14 +11,18 @@ class TcpClientSocket : public QTcpSocket
     Q_OBJECT
 public:
     explicit TcpClientSocket(QObject *parent = nullptr);
+    void sendMessage(Msg * message);
 
 signals:
-    void dataReceived(QByteArray data);    // 收到完整数据包
+    void messageReceived(QByteArray data);    // 收到完整数据包
     void clientDisconnected();             // 客户端断开连接
 
 private slots:
-    void onReadyRead();        // 数据到达
+    void receiveMessage();        // 接收数据
     void onDisconnected();     // 客户端断开
+
+protected:
+    quint32 m_blockSize;
 };
 
 #endif // TCPCLIENTSOCKET_H

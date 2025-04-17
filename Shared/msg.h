@@ -4,6 +4,8 @@
 #include <QObject>
 #include "msgType.h"
 
+//服务端和客户端仅通过message通信
+
 /*
 
 使用 QByteArray进行数据封装，自定义MSG格式:
@@ -20,10 +22,13 @@ class Msg
 public:
     Msg(MsgType type, const QByteArray & content);
 
-    //从流中读取，或转为QByteArray可发送类型
+    //转为QByteArray可发送类型
     QByteArray toQByteArray();
+    //从流中读取,转为message
     static Msg fromQByteArray(const QByteArray &data);
-
+    //给Handler提供直接操作Msg的接口
+    MsgType getType();
+    QByteArray & getContent();
 
 private:
     //quint32 m_contentSize;

@@ -1,11 +1,13 @@
 #include "server.h"
 #include "Utilities/record.h"
 #include <QMessageBox>
+#include <QNetworkInterface>
+#include "msg.h"
+#include "userinfo.h"
 Server::Server(QObject *parent)
     : QObject{parent},
     m_tcpServer(new TcpServer)
 {
-    connect(m_tcpServer, &TcpServer::newClientConnected, this, &Server::onNewConnection);
 
 }
 
@@ -15,10 +17,15 @@ void Server::start(int port)
         QMessageBox::warning(nullptr, "错误",
                              "无法监听端口，可能是该端口已被占用");
         Record::getRecord()->writeRecord( "Server listen error:" + m_tcpServer->errorString());
+        return; // 提前退出
     }
-    return; // 提前退出
-    Record::getRecord()->writeRecord( "Server started, listening on port:" + QString::number(port));
+    Record::getRecord()->writeRecord( "服务器启动,监听端口:" + QString::number(port));
 
+    //显示可用的IP
+    foreach (const QHostAddress &address, QNetworkInterface::allAddresses()) {
+        if (address.protocol() == QAbstractSocket::IPv4Protocol && !address.isLoopback())
+            Record::getRecord()->writeRecord( "服务器可连接 IP：" + address.toString());
+    }
 }
 
 void Server::stop()
@@ -50,23 +57,3 @@ TcpClientSocket *Server::getClient(quint32 id)
     return m_clients.contains(id) ? m_clients.value(id) : nullptr;
 }
 
-void Server::onNewConnection(QTcpSocket* socket) {
-    auto client = qobject_cast<TcpClientSocket*>(socket);
-    if (!client) return;
-
-    quint32 id = m_clients.size() + 1;  // 简单分配ID
-    addClient(id, client);
-
-    connect(client, &TcpClientSocket::dataReceived, this, [=](QByteArray data){
-        Record::getRecord()->writeRecord( QString("收到客户端%1的数据：%2").arg(id).arg(data));
-        // TODO：调用消息处理模块
-    });
-
-    connect(client, &TcpClientSocket::clientDisconnected, this, [=](){
-        deleteClient(id);
-        client->deleteLater();
-        Record::getRecord()->writeRecord( QString("客户端%1断开连接").arg(id));
-    });
-    Record::getRecord()->writeRecord( QString("新客户端连接，分配ID：%1").arg(id));
-
-}

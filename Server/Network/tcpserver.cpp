@@ -12,6 +12,4 @@ void TcpServer::incomingConnection ( qintptr socketDescriptor )
     //告诉TcpClientSocket它要处理哪个客户端的连接，设置本socket唯一标识符
     tcpClientSocket->setSocketDescriptor(socketDescriptor);
 
-    //发给Server 管理
-    emit newClientConnected(tcpClientSocket);
 }

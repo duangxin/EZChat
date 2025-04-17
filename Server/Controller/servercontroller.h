@@ -7,11 +7,16 @@ class ServerController : public QObject
 {
     Q_OBJECT
 public:
-    explicit ServerController(QObject* parent = nullptr);
+    explicit ServerController();
+
+    //单例
+    static ServerController* getCtrlInstance();
 
     static Server* getServerInstance();
+    void sendMessageWhenConnected(TcpClientSocket *socket, std::unique_ptr<Msg> msg);
 private:
     static Server* m_server;
+    static ServerController* obj; //自己的实例
 };
 
 #endif // SERVERCONTROLLER_H

@@ -68,7 +68,7 @@ background-color: rgba(203, 203, 203, 150);
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap resource="GUI/resources.qrc">:/img/logonbg.ico</pixmap>
+     <pixmap resource="resources.qrc">:/img/logonbg.ico</pixmap>
     </property>
    </widget>
    <widget class="QToolButton" name="closeButton">
@@ -193,7 +193,7 @@ QToolButton:checked {
       <string/>
      </property>
      <property name="icon">
-      <iconset resource="GUI/resources.qrc">
+      <iconset resource="resources.qrc">
        <normaloff>:/img/chatList.png</normaloff>:/img/chatList.png</iconset>
      </property>
      <property name="iconSize">
@@ -239,7 +239,7 @@ QToolButton:checked {
       <string/>
      </property>
      <property name="icon">
-      <iconset resource="GUI/resources.qrc">
+      <iconset resource="resources.qrc">
        <normaloff>:/img/friendsList.png</normaloff>:/img/friendsList.png</iconset>
      </property>
      <property name="iconSize">
@@ -353,7 +353,7 @@ border-top:1px solid rgb(116, 116, 116);
       <string/>
      </property>
      <property name="icon">
-      <iconset resource="GUI/resources.qrc">
+      <iconset resource="resources.qrc">
        <normaloff>:/img/logo.png</normaloff>:/img/logo.png</iconset>
      </property>
      <property name="iconSize">
@@ -373,7 +373,7 @@ border-top:1px solid rgb(116, 116, 116);
       </rect>
      </property>
      <property name="text">
-      <string>用户名</string>
+      <string>duangxin</string>
      </property>
     </widget>
     <widget class="QLabel" name="idLabel">
@@ -386,14 +386,14 @@ border-top:1px solid rgb(116, 116, 116);
       </rect>
      </property>
      <property name="text">
-      <string>用户ID</string>
+      <string>ID:00712</string>
      </property>
     </widget>
    </widget>
   </widget>
  </widget>
  <resources>
-  <include location="GUI/resources.qrc"/>
+  <include location="resources.qrc"/>
  </resources>
  <connections/>
 </ui>

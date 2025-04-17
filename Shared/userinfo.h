@@ -10,7 +10,7 @@ public:
     explicit UserInfo(quint32 id = 0x0000,
                       QString name = "",
                       QString pwd = "",
-                      QString avatar_name = ""
+                      QString avatar_name = "qrc:/img/logo.png"
                       );
 
     //getters,const让函数内部不能修改对象状态
@@ -18,6 +18,7 @@ public:
     QString getName() const;
     QString getPwd() const;
     QString getAvatarName() const;
+    void setID(quint32 id);
 /*
     UserInfo编码方式:
     |4:id|4:nameSize|name|4:pwdSize|pwd|4:avatarSize|avatar|
@@ -33,6 +34,7 @@ public:
     //从流中读取，或转为QByteArray可发送类型
     QByteArray toQByteArray();
     static UserInfo fromQByteArray(const QByteArray &data);
+
 
 protected:
     quint32 m_id;

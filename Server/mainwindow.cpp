@@ -2,31 +2,29 @@
 #include "ui_mainwindow.h"
 #include "Controller/servercontroller.h"
 #include "Utilities/record.h"
+#include "DataBase/mysqlhelper.h"
 
 #include <QTcpServer>
-#include <QNetworkInterface>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
-    ServerController::getServerInstance()->start(6666);
-
     //一有日志写入就更新界面
     connect(Record::getRecord(), &Record::readyShowContent, this, &MainWindow::showLog);
-
     //日志更新光标移动到最底部
     connect(ui->textBrowser, &QTextEdit::cursorPositionChanged, this, &MainWindow::scrollToBottom);
 
-    //显示可用的IP
-    foreach (const QHostAddress &address, QNetworkInterface::allAddresses()) {
-        if (address.protocol() == QAbstractSocket::IPv4Protocol && !address.isLoopback())
-            Record::getRecord()->writeRecord( "服务器可连接 IP：" + address.toString());
+    ServerController::getCtrlInstance()->getServerInstance()->start(6666);
+
+    //连接Mysql
+    auto dbHelper = MySqlHelper::GetInstance();
+    if (dbHelper->connect("localhost", "ezchat_server", "root", "djx030712")) {
+        dbHelper->initTables();
     }
 
-      //DataDB::GetInstance();
+
 }
 
 MainWindow::~MainWindow()

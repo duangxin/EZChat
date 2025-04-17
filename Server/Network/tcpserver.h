@@ -11,9 +11,6 @@ class TcpServer : public QTcpServer
 public:
     explicit TcpServer(QObject *parent = nullptr);
 
-signals:
-    void newClientConnected(QTcpSocket*);
-
 protected:
     void incomingConnection(qintptr socketDescriptor) override;
 };

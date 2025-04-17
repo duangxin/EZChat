@@ -1,5 +1,6 @@
 QT       += core gui
 QT       += network
+QT       += sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -13,8 +14,11 @@ include(../shared/shared.pri)
 
 SOURCES += \
     Controller/servercontroller.cpp \
-    DataBase/database.cpp \
+    DataBase/mysqlhelper.cpp \
+    Network/Handler/loginhandler.cpp \
+    Network/Handler/registerhandler.cpp \
     Network/server.cpp \
+    Network/serverhandlerreg.cpp \
     Network/tcpclientsocket.cpp \
     Network/tcpserver.cpp \
     main.cpp \
@@ -23,8 +27,12 @@ SOURCES += \
 
 HEADERS += \
     Controller/servercontroller.h \
-    DataBase/database.h \
+    DataBase/mysqlhelper.h \
+    Network/Handler/MsgHandler.h \
+    Network/Handler/loginhandler.h \
+    Network/Handler/registerhandler.h \
     Network/server.h \
+    Network/serverhandlerreg.h \
     Network/tcpclientsocket.h \
     Network/tcpserver.h \
     Utilities/stdDateTime.h \
