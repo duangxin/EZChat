@@ -6,6 +6,10 @@
 #include "Handler/MsgHandler.h"
 #include "Handler/registerhandler.h"
 #include "Handler/loginhandler.h"
+#include "Handler/addfriendhandler.h"
+#include "Handler/addfriendanswerhandler.h"
+#include "Handler/friendlisthandler.h"
+
 class ClientHandlerReg : public QObject
 {
     Q_OBJECT

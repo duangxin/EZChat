@@ -11,5 +11,7 @@
         <file>img/account.png</file>
         <file>img/password.png</file>
         <file>img/justin.jpg</file>
+        <file>img/pressed-setting.png</file>
+        <file>img/setting.png</file>
     </qresource>
 </RCC>

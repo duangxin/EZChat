@@ -15,6 +15,9 @@ include(../shared/shared.pri)
 SOURCES += \
     Controller/servercontroller.cpp \
     DataBase/mysqlhelper.cpp \
+    Network/Handler/addfriendanswerhandler.cpp \
+    Network/Handler/addfriendhandler.cpp \
+    Network/Handler/friendlisthandler.cpp \
     Network/Handler/loginhandler.cpp \
     Network/Handler/registerhandler.cpp \
     Network/server.cpp \
@@ -29,6 +32,9 @@ HEADERS += \
     Controller/servercontroller.h \
     DataBase/mysqlhelper.h \
     Network/Handler/MsgHandler.h \
+    Network/Handler/addfriendanswerhandler.h \
+    Network/Handler/addfriendhandler.h \
+    Network/Handler/friendlisthandler.h \
     Network/Handler/loginhandler.h \
     Network/Handler/registerhandler.h \
     Network/server.h \

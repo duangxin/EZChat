@@ -106,9 +106,7 @@ background-color:rgb(46, 46, 46);
 border-top:1px solid rgb(116, 116, 116);
 border-bottom-left-radius:15px;
 }
-QToolButton#addFriendBT{
-background-color:rgb(46, 46, 46);
-}</string>
+</string>
     </property>
     <property name="frameShape">
      <enum>QFrame::Shape::StyledPanel</enum>
@@ -116,7 +114,7 @@ background-color:rgb(46, 46, 46);
     <property name="frameShadow">
      <enum>QFrame::Shadow::Raised</enum>
     </property>
-    <widget class="QToolButton" name="addFriendBT">
+    <widget class="QToolButton" name="frdManageBT">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -126,7 +124,7 @@ background-color:rgb(46, 46, 46);
       </rect>
      </property>
      <property name="toolTip">
-      <string>添加好友</string>
+      <string>好友管理</string>
      </property>
      <property name="autoFillBackground">
       <bool>false</bool>
@@ -135,9 +133,11 @@ background-color:rgb(46, 46, 46);
       <string notr="true">QToolButton {
 	background-color:rgb(46, 46, 46);
     border: none;
-   image: url(:/img/addFriends.png)
+   image: url(:/img/addFriends.png);
 }
-
+QToolButton::menu-indicator {
+    image: none;
+}
 QToolButton:hover {
 	background-color:rgb(158, 158, 158);
 	border-radius:3px;
@@ -252,8 +252,51 @@ QToolButton:checked {
       <bool>true</bool>
      </property>
     </widget>
+    <widget class="QToolButton" name="settingBT">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>260</y>
+       <width>40</width>
+       <height>40</height>
+      </rect>
+     </property>
+     <property name="toolTip">
+      <string>设置</string>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QToolButton {
+	background-color:rgb(46, 46, 46);
+    border: none;
+   image: url(:/img/setting.png);
+}
+QToolButton::menu-indicator {
+    image: none;
+}
+QToolButton:hover {
+	background-color:rgb(158, 158, 158);
+	border-radius:3px;
+}
+QToolButton:pressed {
+    image: url(:/img/pressed-setting.png)  /*点击时的图片 */
+}
+</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>40</width>
+       <height>40</height>
+      </size>
+     </property>
+     <property name="checkable">
+      <bool>false</bool>
+     </property>
+    </widget>
    </widget>
-   <widget class="QFrame" name="listFrame">
+   <widget class="QFrame" name="friendList">
     <property name="geometry">
      <rect>
       <x>60</x>
@@ -263,11 +306,12 @@ QToolButton:checked {
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">QFrame#listFrame{
+     <string notr="true">QFrame#friendList{
 border:none;
 background-color:rgb(229, 228, 228);
 border-top:1px solid rgb(116, 116, 116);
-}</string>
+}
+</string>
     </property>
     <property name="frameShape">
      <enum>QFrame::Shape::StyledPanel</enum>
@@ -286,7 +330,7 @@ border-top:1px solid rgb(116, 116, 116);
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">QFrame{
+     <string notr="true">QFrame#dialogFrame{
 	border:none;
 	border-top:1px solid rgb(116, 116, 116);
 }</string>
@@ -334,6 +378,9 @@ border-top:1px solid rgb(116, 116, 116);
      <enum>QFrame::Shadow::Raised</enum>
     </property>
     <widget class="QToolButton" name="avatarBT">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
      <property name="geometry">
       <rect>
        <x>20</x>
@@ -354,7 +401,7 @@ border-top:1px solid rgb(116, 116, 116);
      </property>
      <property name="icon">
       <iconset resource="resources.qrc">
-       <normaloff>:/img/logo.png</normaloff>:/img/logo.png</iconset>
+       <normaloff>:/img/password.png</normaloff>:/img/password.png</iconset>
      </property>
      <property name="iconSize">
       <size>
@@ -366,9 +413,9 @@ border-top:1px solid rgb(116, 116, 116);
     <widget class="QLabel" name="nameLabel">
      <property name="geometry">
       <rect>
-       <x>130</x>
+       <x>120</x>
        <y>30</y>
-       <width>69</width>
+       <width>91</width>
        <height>19</height>
       </rect>
      </property>
@@ -379,9 +426,9 @@ border-top:1px solid rgb(116, 116, 116);
     <widget class="QLabel" name="idLabel">
      <property name="geometry">
       <rect>
-       <x>130</x>
+       <x>120</x>
        <y>70</y>
-       <width>69</width>
+       <width>91</width>
        <height>19</height>
       </rect>
      </property>
@@ -389,6 +436,52 @@ border-top:1px solid rgb(116, 116, 116);
       <string>ID:00712</string>
      </property>
     </widget>
+   </widget>
+   <widget class="QFrame" name="chatList">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>160</y>
+      <width>240</width>
+      <height>440</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QFrame#chatList{
+border:none;
+background-color:rgb(229, 228, 228);
+border-top:1px solid rgb(116, 116, 116);
+}</string>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::Shape::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Shadow::Raised</enum>
+    </property>
+   </widget>
+   <widget class="QFrame" name="initList">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>160</y>
+      <width>240</width>
+      <height>440</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QFrame#initList{
+border:none;
+background-color:rgb(229, 228, 228);
+border-top:1px solid rgb(116, 116, 116);
+}</string>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::Shape::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Shadow::Raised</enum>
+    </property>
    </widget>
   </widget>
  </widget>

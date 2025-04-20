@@ -14,11 +14,17 @@ include(../shared/shared.pri)
 
 SOURCES += \
     Controller/clientcontroller.cpp \
+    Controller/clientcontroller_friends.cpp \
     Controller/clientcontroller_log_reg.cpp \
+    GUI/addfriend.cpp \
+    GUI/frdmanege.cpp \
     GUI/login.cpp \
     GUI/register.cpp \
     GUI/tipbox.cpp \
     GUI/widget.cpp \
+    Network/Handler/addfriendanswerhandler.cpp \
+    Network/Handler/addfriendhandler.cpp \
+    Network/Handler/friendlisthandler.cpp \
     Network/Handler/loginhandler.cpp \
     Network/Handler/registerhandler.cpp \
     Network/clienthandlerreg.cpp \
@@ -31,23 +37,31 @@ SOURCES += \
 
 HEADERS += \
     Controller/clientcontroller.h \
+    GUI/addfriend.h \
+    GUI/frdmanege.h \
     GUI/login.h \
     GUI/register.h \
     GUI/tipbox.h \
     GUI/widget.h \
     Network/Handler/MsgHandler.h \
+    Network/Handler/addfriendanswerhandler.h \
+    Network/Handler/addfriendhandler.h \
+    Network/Handler/friendlisthandler.h \
     Network/Handler/loginhandler.h \
     Network/Handler/registerhandler.h \
     Network/clienthandlerreg.h \
     Network/tcpclientsocket.h \
     Utilities/config.h \
     Utilities/encryption.h \
+    Utilities/stdDateTime.h \
     database.h \
     Utilities/movewidgetevent.h
 
 
 
 FORMS += \
+    GUI/addfriend.ui \
+    GUI/frdmanege.ui \
     GUI/login.ui \
     GUI/register.ui \
     GUI/tipbox.ui \

@@ -5,7 +5,6 @@
 #include <QObject>
 #include "datamodel.h"
 
-
 //MsgHandler接口(抽象类), 用于定义对Msg共同的parse行为.
 
 class MsgHandler : public QObject

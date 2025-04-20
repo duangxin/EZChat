@@ -1,0 +1,20 @@
+#ifndef ADDFRIENDANSWERHANDLER_H
+#define ADDFRIENDANSWERHANDLER_H
+
+#include "MsgHandler.h"
+
+class addFriendAnswerhandler : public MsgHandler
+{
+    Q_OBJECT
+public:
+    explicit addFriendAnswerhandler(QObject *parent = nullptr);
+
+    virtual void parse(Msg& msg);
+
+
+signals:
+    void sigAddFriendSuccessful();
+    void sigAddFriendFailed(MsgType type);
+};
+
+#endif // ADDFRIENDANSWERHANDLER_H

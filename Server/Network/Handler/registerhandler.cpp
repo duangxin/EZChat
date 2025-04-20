@@ -1,7 +1,4 @@
 #include "registerhandler.h"
-#include "Utilities/record.h"
-#include "DataBase/mysqlhelper.h"
-#include "../../Controller/servercontroller.h"
 
 registerHandler::registerHandler(QObject *parent)
     : MsgHandler{parent}

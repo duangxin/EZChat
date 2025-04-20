@@ -24,6 +24,10 @@ public:
     bool loginCheck(const quint32 Id, const QString pwd);
     //返回不包含密码的用户信息
     UserInfo selectUserInfoById(const quint32 id);
+    //好友关系是否存在
+    bool friendshipExist(quint32 Id1, quint32 Id2);
+    //返回好友表
+    QList<QByteArray> selectAllFriendsUserInfo(quint32 UserId);
 private:
     QSqlDatabase mysql_db;
     static MySqlHelper* sqlObj;

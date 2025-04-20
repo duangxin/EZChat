@@ -3,6 +3,14 @@
 
 ClientController::ClientController(QObject* parent) : QObject(parent){
 
+
+
+    //登录成功时 初始化聊天信息Map 以及获取好友列表
+    connect((loginHandler*)ClientHandlerReg::GetInstance()->getHandler(MsgType::LOGIN_SUCCESS),
+            &loginHandler::loginSuccessful,
+            this,&ClientController::requestFriendList);
+
+
 }
 
 //客户端控制器的单例

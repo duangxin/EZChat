@@ -5,6 +5,7 @@
 #include <memory> //智能指针
 #include "datamodel.h"
 #include "Network/tcpclientsocket.h"
+#include "Network/clienthandlerreg.h"
 
 class ClientController  : public QObject
 {
@@ -17,8 +18,28 @@ public:
     //注册登录
     void requestRegister(QString username, QString password);
     void requestLogin(quint32 id, QString password);
+    UserInfo& getMyInfo();
+
+    //好友请求
+    void requestAddFriend(quint32 receiver);
+    void agreeFriendRequest(quint32 sender, quint32 receiver);
+    void declineFriendRequest(quint32 sender, quint32 receiver);
+    QList<UserInfo> *getFriendList();   //给UI展示好友列表
+    void dynamicAppendFriend(UserInfo _friend); //新好友，更新列表
+
+    friend class friendListHandler;
+
+private slots:
+
+    void requestFriendList(UserInfo info);//向服务器获取好友列表
 
 private:
+
+
+    QMap<quint32, QList<ChatMessage>*>* getChatMsgMap() { return &chatMsgMap; }
+    QMap<quint32, QList<ChatMessage>*> chatMsgMap;
+        //好友列表
+    QList<UserInfo> friendList;
 
     static ClientController* obj; //自己的实例
 

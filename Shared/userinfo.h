@@ -10,7 +10,7 @@ public:
     explicit UserInfo(quint32 id = 0x0000,
                       QString name = "",
                       QString pwd = "",
-                      QString avatar_name = "qrc:/img/logo.png"
+                      QString avatar_name = ":/img/logo.png"
                       );
 
     //getters,const让函数内部不能修改对象状态

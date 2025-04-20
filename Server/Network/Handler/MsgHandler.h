@@ -3,9 +3,11 @@
 
 
 #include <QObject>
-#include "msg.h"
+#include "datamodel.h"
 #include "Network/tcpclientsocket.h"
-
+#include "Utilities/record.h"
+#include "DataBase/mysqlhelper.h"
+#include "Controller/servercontroller.h"
 
 //MsgHandler接口(抽象类), 用于定义对Msg共同的parse行为.
 

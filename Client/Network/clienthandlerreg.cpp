@@ -14,6 +14,19 @@ ClientHandlerReg::ClientHandlerReg(QObject *parent)
     MsgHandler * loginhandler = new loginHandler(this);
     newHandler(MsgType::LOGIN_SUCCESS, loginhandler);
     newHandler(MsgType::LOGIN_ERROR, loginhandler);
+
+    MsgHandler * addfriendhandler = new addFriendHandler(this);
+    newHandler(MsgType::REQUEST_ADD_FRIEND, addfriendhandler);
+
+    MsgHandler * friendlisthandler = new friendListHandler(this);
+    newHandler(MsgType::ALL_FRIEND_LIST, friendlisthandler);
+
+    MsgHandler * addfriendanswerhandler = new addFriendAnswerhandler(this);
+    newHandler(MsgType::REQUEST_ADD_FRIEND_AGREED, addfriendanswerhandler);
+    newHandler(MsgType::REQUEST_ADD_FRIEND_DECLINED, addfriendanswerhandler);
+    newHandler(MsgType::REQUEST_ADD_FRIEND_ERROR_FRIEND_OFFLINE, addfriendanswerhandler);
+    newHandler(MsgType::REQUEST_ADD_FRIEND_ERROR_FRIEND_NOT_EXIST, addfriendanswerhandler);
+    newHandler(MsgType::REQUEST_ADD_FRIEND_ERROR_FRIENDSHIP_EXIST, addfriendanswerhandler);
 }
 
 //单例

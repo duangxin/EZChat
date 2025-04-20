@@ -1,5 +1,6 @@
 #include "clientcontroller.h"
 #include "Utilities/encryption.h"
+#include "Network/clienthandlerreg.h"
 
 
 //注册
@@ -23,4 +24,9 @@ void ClientController::requestLogin(quint32 id, QString password){
 
     sendMessageWhenConnected(std::move(message));
 
+}
+//获取登录用户
+UserInfo& ClientController::getMyInfo(){
+    loginHandler * tmp = (loginHandler *) ClientHandlerReg::GetInstance()->getHandler(MsgType::LOGIN_SUCCESS);
+    return tmp->getMyInfo();
 }

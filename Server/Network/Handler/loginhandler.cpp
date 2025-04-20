@@ -1,7 +1,4 @@
 #include "loginhandler.h"
-#include "Utilities/record.h"
-#include "DataBase/mysqlhelper.h"
-#include "../../Controller/servercontroller.h"
 
 loginHandler::loginHandler(QObject *parent)
     : MsgHandler{parent}

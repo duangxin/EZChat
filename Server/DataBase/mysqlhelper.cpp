@@ -53,6 +53,27 @@ void MySqlHelper::initTables()
                "friend_id INTEGER, "
                "FOREIGN KEY (user_id) REFERENCES UserInfo(Id),"
                "FOREIGN KEY (friend_id) REFERENCES UserInfo(Id))");
+    // query.exec("CREATE TABLE IF NOT EXISTS Message ("
+    //            "Sender INTEGER,"
+    //            "Reciever INTEGER,"
+    //            "Content TEXT NOT NULL,"
+    //            "Timestamp TIMESTAMP NOT NULL,"
+    //            "FOREIGN KEY (Sender) REFERENCES UserInfo(Id),"
+    //            "FOREIGN KEY (Reciever) REFERENCES UserInfo(Id))");
+    // query.exec("CREATE TABLE IF NOT EXISTS OfflineMessage ("
+    //            "Sender INTEGER,"
+    //            "Reciever INTEGER,"
+    //            "Content TEXT NOT NULL,"
+    //            "Timestamp TIMESTAMP NOT NULL,"
+    //            "FOREIGN KEY (Sender) REFERENCES UserInfo(Id),"
+    //            "FOREIGN KEY (Reciever) REFERENCES UserInfo(Id))");
+    // query.exec("CREATE TABLE IF NOT EXISTS local_message ("
+    //            "MsgId INTEGER PRIMARY KEY AUTOINCREMENT,"
+    //            "Sender INTEGER,"
+    //            "Receiver INTEGER,"
+    //            "Content TEXT NOT NULL,"
+    //            "Timestamp TIMESTAMP NOT NULL,"
+    //            "is_synced BOOLEAN DEFAULT 0)");
     Record::getRecord()->writeRecord("MySql表初始化完成");
 }
 
@@ -144,3 +165,33 @@ UserInfo MySqlHelper::selectUserInfoById(const quint32 id){
     }
     return tmp;
 }
+//好友关系是否存在
+bool MySqlHelper::friendshipExist(quint32 Id1,quint32 Id2){
+    QSqlQuery query;
+    //向数据库发送一个预编译语句
+    query.prepare("select * from Friendship where user_id =:Id1 and friend_id =:Id2");
+    query.bindValue(":Id1", QVariant(Id1));
+    query.bindValue(":Id2", QVariant(Id2));
+    if (!query.exec()) {
+        Record::getRecord()->writeRecord("好友关系查找失败:" + query.lastError().text());
+        return false;  // 或者你可以根据情况返回 true/false
+    }
+
+    return query.next();  // 如果有结果行，说明存在好友关系
+}
+
+//查询所有好友的信息，返回一个包含User Info的QList
+QList<QByteArray> MySqlHelper::selectAllFriendsUserInfo(quint32 UserId) {
+    QSqlQuery query;
+    query.prepare("select Id,Username,Avatar from UserInfo where Id in (select friend_id from Friendship where user_id =:UserId)");
+    query.bindValue(":UserId", QVariant(UserId));
+    query.exec();
+    QList<QByteArray> ListUserInfo;
+    ListUserInfo.clear();
+    while (query.next()) {
+        ListUserInfo.append(UserInfo(query.value("Id").toInt(), query.value("Username").toString(),"",query.value("Avatar").toString()).toQByteArray());
+    }
+    return ListUserInfo;
+}
+
+
