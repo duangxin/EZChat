@@ -19,13 +19,30 @@ quint32 ChatMessage::getReceiver() const{
     return _receiver;
 }
 
-QString & ChatMessage::getContent(){
+const QString & ChatMessage::getContent() const{
     return _content;
 }
 
-QString ChatMessage::getTimeStamp(){
+const QString& ChatMessage::getTimeStamp() const {
     return _time_stamp;
 }
+
+void ChatMessage::setSender(quint32 sender) {
+    _sender = sender;
+}
+
+void ChatMessage::setReceiver(quint32 receiver) {
+    _receiver = receiver;
+}
+
+void ChatMessage::setContent(const QString& content) {
+    _content = content;
+}
+
+void ChatMessage::setTimeStamp(const QString& timestamp) {
+    _time_stamp = timestamp;
+}
+
 
 
 ChatMessage ChatMessage::fromQByteArray(QByteArray chat_msg){

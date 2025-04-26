@@ -18,6 +18,10 @@ ClientHandlerReg::ClientHandlerReg(QObject *parent)
     MsgHandler * addfriendhandler = new addFriendHandler(this);
     newHandler(MsgType::REQUEST_ADD_FRIEND, addfriendhandler);
 
+    MsgHandler * deletefriendhandler = new deleteFriendHandler(this);
+    newHandler(MsgType::DELETE_FRIEND_SUCCESS, deletefriendhandler);
+    newHandler(MsgType::DELETE_FRIEND_ERROR_NOFRIEND, deletefriendhandler);
+
     MsgHandler * friendlisthandler = new friendListHandler(this);
     newHandler(MsgType::ALL_FRIEND_LIST, friendlisthandler);
 
@@ -27,6 +31,20 @@ ClientHandlerReg::ClientHandlerReg(QObject *parent)
     newHandler(MsgType::REQUEST_ADD_FRIEND_ERROR_FRIEND_OFFLINE, addfriendanswerhandler);
     newHandler(MsgType::REQUEST_ADD_FRIEND_ERROR_FRIEND_NOT_EXIST, addfriendanswerhandler);
     newHandler(MsgType::REQUEST_ADD_FRIEND_ERROR_FRIENDSHIP_EXIST, addfriendanswerhandler);
+
+    MsgHandler * changeavatarhandler = new changeAvatarHandler(this);
+    newHandler(MsgType::MODIFY_AVATAR_SUCCESS, changeavatarhandler);
+    newHandler(MsgType::MODIFY_AVATAR_ERROR, changeavatarhandler);
+
+    MsgHandler * changenamehandler = new changeNameHandler(this);
+    newHandler(MsgType::MODIFY_USERNAME_SUCCESS, changenamehandler);
+    newHandler(MsgType::MODIFY_USERNAME_ERROR, changenamehandler);
+
+    MsgHandler * chatmsghandler = new chatMsgHandler(this);
+    newHandler(MsgType::MSG_TEXT, chatmsghandler);
+
+    MsgHandler * syncmessagesHandler = new syncMessagesHandler(this);
+    newHandler(MsgType::RETURN_SYNC_MESSAGES, syncmessagesHandler);
 }
 
 //单例

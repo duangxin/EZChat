@@ -90,8 +90,7 @@ Widget* login::GetMainWindowInstance(){
 //登陆成功，进入主界面
 void login::showlogSuccessful(UserInfo info)
 {
-    GetMainWindowInstance()->initUserInfo(info);
-    GetMainWindowInstance()->setUserInfo();
+    GetMainWindowInstance()->setUserInfo(info);
     GetMainWindowInstance()->show();
     this->close();
 }

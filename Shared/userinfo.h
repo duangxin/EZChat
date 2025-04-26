@@ -19,6 +19,7 @@ public:
     QString getPwd() const;
     QString getAvatarName() const;
     void setID(quint32 id);
+    bool operator==(const UserInfo& other) const;
 /*
     UserInfo编码方式:
     |4:id|4:nameSize|name|4:pwdSize|pwd|4:avatarSize|avatar|

@@ -17,9 +17,15 @@ SOURCES += \
     DataBase/mysqlhelper.cpp \
     Network/Handler/addfriendanswerhandler.cpp \
     Network/Handler/addfriendhandler.cpp \
+    Network/Handler/changeavatarhandler.cpp \
+    Network/Handler/changenamehandler.cpp \
+    Network/Handler/chatmsghandler.cpp \
+    Network/Handler/deletefriendhandler.cpp \
     Network/Handler/friendlisthandler.cpp \
     Network/Handler/loginhandler.cpp \
+    Network/Handler/logouthandler.cpp \
     Network/Handler/registerhandler.cpp \
+    Network/Handler/syncmessageshandler.cpp \
     Network/server.cpp \
     Network/serverhandlerreg.cpp \
     Network/tcpclientsocket.cpp \
@@ -34,9 +40,15 @@ HEADERS += \
     Network/Handler/MsgHandler.h \
     Network/Handler/addfriendanswerhandler.h \
     Network/Handler/addfriendhandler.h \
+    Network/Handler/changeavatarhandler.h \
+    Network/Handler/changenamehandler.h \
+    Network/Handler/chatmsghandler.h \
+    Network/Handler/deletefriendhandler.h \
     Network/Handler/friendlisthandler.h \
     Network/Handler/loginhandler.h \
+    Network/Handler/logouthandler.h \
     Network/Handler/registerhandler.h \
+    Network/Handler/syncmessageshandler.h \
     Network/server.h \
     Network/serverhandlerreg.h \
     Network/tcpclientsocket.h \

@@ -16,6 +16,7 @@ public:
     explicit TipBox(QWidget *parent = nullptr);
     ~TipBox();
     void setTip(QString str);
+    void centerToParent();
 
 private:
     Ui::TipBox *ui;

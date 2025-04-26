@@ -18,20 +18,37 @@ public:
     //注册登录
     void requestRegister(QString username, QString password);
     void requestLogin(quint32 id, QString password);
+    void requestLogout(quint32 id);
     UserInfo& getMyInfo();
 
     //好友请求
     void requestAddFriend(quint32 receiver);
     void agreeFriendRequest(quint32 sender, quint32 receiver);
     void declineFriendRequest(quint32 sender, quint32 receiver);
+    void requestDeleteFriend(quint32 receiver);
     QList<UserInfo> *getFriendList();   //给UI展示好友列表
     void dynamicAppendFriend(UserInfo _friend); //新好友，更新列表
+    void dynamicRemoveFriend(UserInfo _friend);
 
+
+    //修改信息
+    void requestModifyUserName(QString newUserName);
+    void requestModifyAvatar(QString imgPath);
+
+    //向服务器获取好友列表
+    void requestFriendList(UserInfo info);
     friend class friendListHandler;
+
+    //发送聊天消息
+    void sendChatMessage(quint32 receiver, QString content);
+    QList<ChatMessage> *getChatMsg(quint32 id);
+
+    //向服务器获取聊天记录
+    void requestSyncMessages();
 
 private slots:
 
-    void requestFriendList(UserInfo info);//向服务器获取好友列表
+
 
 private:
 

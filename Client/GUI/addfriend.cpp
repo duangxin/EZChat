@@ -39,6 +39,7 @@ addFriend::addFriend(QWidget *parent)
                 }
                 TipBox* box = new TipBox(this);
                 box->setTip(tip);
+                box->centerToParent();
                 box->exec();
             });
 }
@@ -70,17 +71,22 @@ void addFriend::on_addButton_clicked()
 
 void addFriend::showAddFriendSuccess()
 {
+
     TipBox* box = new TipBox(this);
-    box->setTip("添加成功!");
+    box->setTip("对方通过申请!");
+    box->centerToParent();
     box->exec();
+    this->close();
 }
 
 void addFriend::showAddFriendFailed(MsgType type)
 {
     if(type == MsgType::REQUEST_ADD_FRIEND_DECLINED){
         TipBox* box = new TipBox(this);
-        box->setTip("对方已拒绝!");
+        box->setTip("对方拒绝申请!");
+        box->centerToParent();
         box->exec();
+        this->close();
     }
 }
 

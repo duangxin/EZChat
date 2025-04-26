@@ -5,6 +5,7 @@
 #include <QSqlQuery>
 #include <QSqlError>
 #include <QDebug>
+#include "Utilities/stdDateTime.h"
 
 #include "datamodel.h"
 
@@ -15,8 +16,14 @@ public:
     ~DataBase();
     //单例设计模式--应对数据库的对象的内存使用
     static DataBase* GetInstance();
-    //注册
-    void registerUserInfo(const UserInfo& user);
+    void addMsg(quint32 Sender, quint32 Receiver, QString Msg,
+                QString Time = StdDateTime::GetDateTime());
+
+    //加载聊天记录
+    QVector<ChatMessage> loadChatHistory(quint32 myId, quint32 friendId);
+
+    //同步聊天记录
+    bool syncMessagesFromServer(const QByteArray& serverData);
 
 private:
     QSqlDatabase sqldb;

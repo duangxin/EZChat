@@ -14,8 +14,15 @@ ServerHandlerReg::ServerHandlerReg(QObject *parent)
     MsgHandler * loginhandler = new loginHandler(this);
     newHandler(MsgType::REQUEST_LOGIN, loginhandler);
 
+    MsgHandler * logouthandler = new logoutHandler(this);
+    newHandler(MsgType::REQUEST_LOGOUT, logouthandler);
+
     MsgHandler * addfriendhandler = new addFriendHandler(this);
     newHandler(MsgType::REQUEST_ADD_FRIEND, addfriendhandler);
+
+
+    MsgHandler * deletefriendhandler = new deleteFriendHandler(this);
+    newHandler(MsgType::REQUEST_DELETE_FRIEND, deletefriendhandler);
 
     MsgHandler * friendlisthandler = new friendListHandler(this);
     newHandler(MsgType::REQUEST_ALL_FRIEND_LIST, friendlisthandler);
@@ -23,6 +30,18 @@ ServerHandlerReg::ServerHandlerReg(QObject *parent)
     MsgHandler * addfriendanswerhandler = new addFriendAnswerhandler(this);
     newHandler(MsgType::REQUEST_ADD_FRIEND_AGREED, addfriendanswerhandler);
     newHandler(MsgType::REQUEST_ADD_FRIEND_DECLINED, addfriendanswerhandler);
+
+    MsgHandler * changeavatarhandler = new changeAvatarHandler(this);
+    newHandler(MsgType::MODIFY_AVATAR, changeavatarhandler);
+
+    MsgHandler * changenamehandler = new changeNameHandler(this);
+    newHandler(MsgType::MODIFY_USERNAME, changenamehandler);
+
+    MsgHandler * chatmsghandler = new chatMsgHandler(this);
+    newHandler(MsgType::MSG_TEXT, chatmsghandler);
+
+    MsgHandler * syncmessagesHandler = new syncMessagesHandler(this);
+    newHandler(MsgType::REQUEST_SYNC_MESSAGES, syncmessagesHandler);
 }
 
 //单例

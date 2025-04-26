@@ -7,8 +7,13 @@
 #include "Handler/registerhandler.h"
 #include "Handler/loginhandler.h"
 #include "Handler/addfriendhandler.h"
+#include "Handler/deletefriendhandler.h"
 #include "Handler/addfriendanswerhandler.h"
 #include "Handler/friendlisthandler.h"
+#include "Handler/changeavatarhandler.h"
+#include "Handler/changenamehandler.h"
+#include "Handler/chatmsghandler.h"
+#include "Handler/syncmessageshandler.h"
 
 class ClientHandlerReg : public QObject
 {

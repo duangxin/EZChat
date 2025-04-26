@@ -14,9 +14,14 @@ include(../shared/shared.pri)
 
 SOURCES += \
     Controller/clientcontroller.cpp \
+    Controller/clientcontroller_chat.cpp \
     Controller/clientcontroller_friends.cpp \
     Controller/clientcontroller_log_reg.cpp \
+    Controller/clientcontroller_modify.cpp \
     GUI/addfriend.cpp \
+    GUI/changeavatar.cpp \
+    GUI/changename.cpp \
+    GUI/deletefriend.cpp \
     GUI/frdmanege.cpp \
     GUI/login.cpp \
     GUI/register.cpp \
@@ -24,9 +29,14 @@ SOURCES += \
     GUI/widget.cpp \
     Network/Handler/addfriendanswerhandler.cpp \
     Network/Handler/addfriendhandler.cpp \
+    Network/Handler/changeavatarhandler.cpp \
+    Network/Handler/changenamehandler.cpp \
+    Network/Handler/chatmsghandler.cpp \
+    Network/Handler/deletefriendhandler.cpp \
     Network/Handler/friendlisthandler.cpp \
     Network/Handler/loginhandler.cpp \
     Network/Handler/registerhandler.cpp \
+    Network/Handler/syncmessageshandler.cpp \
     Network/clienthandlerreg.cpp \
     Network/tcpclientsocket.cpp \
     Utilities/encryption.cpp \
@@ -38,6 +48,9 @@ SOURCES += \
 HEADERS += \
     Controller/clientcontroller.h \
     GUI/addfriend.h \
+    GUI/changeavatar.h \
+    GUI/changename.h \
+    GUI/deletefriend.h \
     GUI/frdmanege.h \
     GUI/login.h \
     GUI/register.h \
@@ -46,9 +59,14 @@ HEADERS += \
     Network/Handler/MsgHandler.h \
     Network/Handler/addfriendanswerhandler.h \
     Network/Handler/addfriendhandler.h \
+    Network/Handler/changeavatarhandler.h \
+    Network/Handler/changenamehandler.h \
+    Network/Handler/chatmsghandler.h \
+    Network/Handler/deletefriendhandler.h \
     Network/Handler/friendlisthandler.h \
     Network/Handler/loginhandler.h \
     Network/Handler/registerhandler.h \
+    Network/Handler/syncmessageshandler.h \
     Network/clienthandlerreg.h \
     Network/tcpclientsocket.h \
     Utilities/config.h \
@@ -61,6 +79,9 @@ HEADERS += \
 
 FORMS += \
     GUI/addfriend.ui \
+    GUI/changeavatar.ui \
+    GUI/changename.ui \
+    GUI/deletefriend.ui \
     GUI/frdmanege.ui \
     GUI/login.ui \
     GUI/register.ui \

@@ -28,6 +28,10 @@ void UserInfo::setID(quint32 id)
     m_id = id;
 }
 
+bool UserInfo::operator==(const UserInfo& other) const {
+    return this->getID() == other.getID();  //ID 能唯一标识用户，就只比较 ID
+}
+
 
 
 QByteArray UserInfo::toQByteArray()

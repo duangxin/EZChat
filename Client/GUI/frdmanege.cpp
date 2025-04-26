@@ -59,12 +59,13 @@ void frdManege::on_closeButton_clicked()
 
 void frdManege::on_agreeButton_clicked()
 {
-    qDebug()<<QString::number(Sender.getID());
-    ClientController::getClientInstance()->dynamicAppendFriend(Sender);
     ClientController::getClientInstance()->agreeFriendRequest(Sender.getID(), receiverId);
+    ClientController::getClientInstance()->dynamicAppendFriend(Sender);
     TipBox* box = new TipBox(this);
-    box->setTip("添加成功!");
+    box->setTip("您已同意!");
+    box->centerToParent();
     box->exec();
+    this->close();
 }
 
 void frdManege::on_refuseButton_clicked()
@@ -72,6 +73,8 @@ void frdManege::on_refuseButton_clicked()
     ClientController::getClientInstance()->declineFriendRequest(Sender.getID(), receiverId);
     TipBox* box = new TipBox(this);
     box->setTip("您已拒绝!");
+    box->centerToParent();
     box->exec();
+    this->close();
 }
 

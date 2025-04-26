@@ -19,7 +19,6 @@ void addFriendAnswerhandler::parse(Msg &msg, TcpClientSocket *socket)
     if(msg.getType() == MsgType::REQUEST_ADD_FRIEND_AGREED){
         Record::getRecord()->writeRecord("[好友应答请求]好友请求通过！");
         dbHelper->addFriendship(tmp.getSender(),tmp.getReceiver());
-        dbHelper->addFriendship(tmp.getReceiver(),tmp.getSender());
         UserInfo info = dbHelper->selectUserInfoById(tmp.getReceiver());
         auto replyMsg = std::make_unique<Msg>(MsgType::REQUEST_ADD_FRIEND_AGREED,info.toQByteArray());
         ServerController::getCtrlInstance()->sendMessageWhenConnected(receiverSocket,std::move(replyMsg));

@@ -10,7 +10,6 @@ ClientController::ClientController(QObject* parent) : QObject(parent){
             &loginHandler::loginSuccessful,
             this,&ClientController::requestFriendList);
 
-
 }
 
 //客户端控制器的单例

@@ -26,8 +26,6 @@ void addFriendHandler::parse(Msg &msg, TcpClientSocket *socket)
         ServerController::getCtrlInstance()->sendMessageWhenConnected(socket,std::move(replyMsg));
         return;
     }
-    qDebug()<<tmp.getSender();
-        qDebug()<<tmp.getReceiver();
 
     //找到对方的客户端
     auto Friend = ServerController::getServerInstance()->getClient(tmp.getReceiver());

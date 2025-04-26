@@ -18,8 +18,9 @@ public:
     quint32 generateUserId();
     //注册
     void addUser(const UserInfo& user);
-    //添加好友
+    //添加，删除好友
     void addFriendship(quint32 Id1, quint32 Id2);
+    void deleteFriendship(quint32 Id1, quint32 Id2);
     //登录验证
     bool loginCheck(const quint32 Id, const QString pwd);
     //返回不包含密码的用户信息
@@ -28,6 +29,18 @@ public:
     bool friendshipExist(quint32 Id1, quint32 Id2);
     //返回好友表
     QList<QByteArray> selectAllFriendsUserInfo(quint32 UserId);
+    //改用户名，头像
+    void changeUsername(quint32 ID,QString Username);
+    void changeAvatar(quint32 ID,QString Avatar);
+    //添加消息
+    void addMsg(quint32 Sender,quint32 Receiver,QString Msg,QString Time);
+
+    //离线消息，添加获取删除
+    void addOfflineMsg(ChatMessage &msg);
+    QList<ChatMessage> getOfflineMsg(quint32 UserID);
+    void deleteOfflineMsg(quint32 UserID);
+
+
 private:
     QSqlDatabase mysql_db;
     static MySqlHelper* sqlObj;

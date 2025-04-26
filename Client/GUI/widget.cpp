@@ -2,9 +2,13 @@
 #include "ui_widget.h"
 #include "./Utilities/movewidgetevent.h"
 #include "addfriend.h"
+#include "deletefriend.h"
 #include "frdmanege.h"
+#include "changename.h"
+#include "changeavatar.h"
 #include "tipbox.h"
 #include "Controller/clientcontroller.h"
+#include "database.h"
 #include <QButtonGroup>
 
 #include <QStackedWidget>
@@ -28,6 +32,7 @@ Widget::Widget(QWidget *parent)
     /*初始化*/
     //单例控制器
     ClientController * client = ClientController::getClientInstance();
+    DataBase::GetInstance();
 
     ui->friendList->hide();
     ui->chatList->hide();
@@ -37,7 +42,7 @@ Widget::Widget(QWidget *parent)
     //好友管理按键的菜单
     frdManageMenu = new QMenu(ui->funcFrame);
     frdManageMenu->addAction("添加好友",this,SLOT(on_addFriend_clicked()));
-    frdManageMenu->addAction("删除好友",this,SLOT(onAddFriend()));
+    frdManageMenu->addAction("删除好友",this,SLOT(on_deleteFriend_clicked()));
     frdManageMenu->addAction("验证消息",this,SLOT(on_friendRequest_clicked()));
     ui->frdManageBT->setPopupMode(QToolButton::InstantPopup);
     ui->frdManageBT->setMenu(frdManageMenu);
@@ -46,11 +51,10 @@ Widget::Widget(QWidget *parent)
 
     //设置按键的菜单
     settingMenu = new QMenu(ui->funcFrame);
-    settingMenu->addAction("修改头像", this, SLOT(onChangeAvatar()));
-    settingMenu->addAction("修改昵称", this, SLOT(onChangeNickname()));
+    settingMenu->addAction("修改头像", this, SLOT(on_changeAvatar_clicked()));
+    settingMenu->addAction("修改昵称", this, SLOT(on_changeName_clicked()));
     ui->settingBT->setPopupMode(QToolButton::InstantPopup);
     ui->settingBT->setMenu(settingMenu);
-
 
     // 创建 QButtonGroup
     QButtonGroup *buttonGroup = new QButtonGroup(this);
@@ -59,111 +63,30 @@ Widget::Widget(QWidget *parent)
     buttonGroup->addButton(ui->chatListBT, 0);
     buttonGroup->addButton(ui->friendsListBT, 1);
 
-    //聊天好友信息
-    auto chatFriendLabel= new QLabel(ui->dialogFrame);
-    chatFriendLabel->setGeometry(20, 5, 560, 40);
-    chatFriendLabel->setText("dd [576513]");
-    chatFriendLabel->setStyleSheet("color:rgb(41,97,253); padding: 5px;"
-                                   "border: 1px solid rgb(41,97,253);border-radius:15px;");
-    // 设置字体大小
-    QFont font = chatFriendLabel->font();
-    font.setPointSize(14); // 设置字体大小为14
-    chatFriendLabel->setFont(font);
-
-    // 聊天记录区域：ScrollArea
-    QScrollArea* chatScrollArea = new QScrollArea(ui->dialogFrame);
-    chatScrollArea->setGeometry(0, 50, 600, 400);
-    chatScrollArea->setWidgetResizable(true);
-
-    // 聊天内容容器（真正承载消息的）
-    QWidget* chatContentWidget = new QWidget();
-    QVBoxLayout* chatLayout = new QVBoxLayout(chatContentWidget);
-    chatLayout->setAlignment(Qt::AlignTop); // 从上往下排列
-    chatLayout->setSpacing(10);
-    chatLayout->setContentsMargins(10, 10, 10, 10);
-
-    // 设置容器到 scrollArea 里
-    chatScrollArea->setWidget(chatContentWidget);
-
-    {
-        QWidget* msgWidget = new QWidget();
-        QHBoxLayout* layout = new QHBoxLayout(msgWidget);
-        layout->setContentsMargins(0, 0, 0, 0);
-        layout->setSpacing(10);
-
-        QLabel* avatar = new QLabel();
-        avatar->setFixedSize(40, 40);
-        avatar->setPixmap(QPixmap(":/img/logo.png").scaled(40, 40, Qt::KeepAspectRatio, Qt::SmoothTransformation));
-
-        QLabel* msgLabel = new QLabel("你好duangxin");
-        msgLabel->setWordWrap(true);
-        msgLabel->setStyleSheet(
-            "background-color: #E0F0FF;"
-            "border-radius: 15px;"
-            "padding: 8px 12px;"    //字体距离气泡
-            "font-size: 14px;"
-            "color: #000000;"
-            );
-        msgLabel->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
-
-        layout->addWidget(avatar);
-        layout->addWidget(msgLabel);
-        layout->addStretch();
-
-        chatLayout->addWidget(msgWidget);
-    }
-
-    // ---------- 自己发的消息 ----------
-    {
-        QWidget* msgWidget = new QWidget();
-        QHBoxLayout* layout = new QHBoxLayout(msgWidget);
-        layout->setContentsMargins(0, 0, 0, 0);
-        layout->setSpacing(10);
-
-        QLabel* avatar = new QLabel();
-        avatar->setFixedSize(40, 40);
-        avatar->setPixmap(QPixmap(":/img/logo.png").scaled(40, 40, Qt::KeepAspectRatio, Qt::SmoothTransformation));
-
-        QLabel* msgLabel = new QLabel("你好dd");
-        msgLabel->setWordWrap(true);
-        msgLabel->setStyleSheet(
-            "background-color: #D1F2C9;"
-            "border-radius: 15px;"
-            "padding: 8px 12px;"
-            "font-size: 14px;"
-            "color: #000000;"
-            );
-        msgLabel->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
-
-        layout->addStretch();
-        layout->addWidget(msgLabel);
-        layout->addWidget(avatar);
-
-        chatLayout->addWidget(msgWidget);
-    }
+    initChatArea();
 
 
-    //聊天的发送框
-    txt= new QTextEdit(ui->dialogFrame);
-    txt->setGeometry(0, 430, 600, 130);
-    txt->setStyleSheet("QTextEdit{background-color:rgb(255,255,255);border:none;"
-                       "border-bottom-right-radius:15px;border-top:1px solid rgb(41,97,253)}");
-
-
-    //聊天发送按钮
-    Send = new QToolButton(ui->dialogFrame);
-    Send->setText("发送");
-    Send->setGeometry(510,500,60,30);
-    Send->setStyleSheet("QToolButton{background-color:rgb(85,170,255);color:rgb(41,97,253);"
-                        "border:1px solid rgb(41,97,253);border-radius:5px;}");
-    connect(Send,SIGNAL(clicked()),this,SLOT(sendtxt()));
     //同意刷新列表
     connect( (addFriendAnswerhandler *) ClientHandlerReg::GetInstance()->getHandler(MsgType::REQUEST_ADD_FRIEND_AGREED),
             &addFriendAnswerhandler::sigAddFriendSuccessful,
             this,&Widget::getFriendInfo);
-    connect( (addFriendAnswerhandler *) ClientHandlerReg::GetInstance()->getHandler(MsgType::REQUEST_ADD_FRIEND_AGREED),
-            &addFriendAnswerhandler::sigAddFriendSuccessful,
-            this,&Widget::getFriendInfo);
+
+    //修改信息的槽
+    connect( (changeNameHandler *) ClientHandlerReg::GetInstance()->getHandler(MsgType::MODIFY_USERNAME_SUCCESS),
+            &changeNameHandler::modifyUserNameSuccess,
+            this,&Widget::setName);
+    connect( (changeAvatarHandler *) ClientHandlerReg::GetInstance()->getHandler(MsgType::MODIFY_AVATAR_SUCCESS),
+            &changeAvatarHandler::modifyAvatarSuccess,
+            this,&Widget::setAvatar);
+
+    //展示好友消息
+    connect( (chatMsgHandler *) ClientHandlerReg::GetInstance()->getHandler(MsgType::MSG_TEXT),
+            &chatMsgHandler::readyShowChatMsg,
+            this,
+            [this](const ChatMessage& msg) {
+                showFriendMsg(msg.getContent());
+                DataBase::GetInstance()->addMsg(currentChatFriend.getID(),logUser.getID(),msg.getContent());
+            });
 }
 
 Widget::~Widget()
@@ -171,23 +94,32 @@ Widget::~Widget()
     delete ui;
 }
 
-void Widget::initUserInfo(UserInfo info)
-{
-    this->id = info.getID();
-    this->name = info.getName();
-    this->pwd = info.getPwd();
-    this->avatarPath = info.getAvatarName();
-}
+// void Widget::initUserInfo(UserInfo info)
+// {
+//     this->logUser = info;
+// }
 
-void Widget::setUserInfo()
+void Widget::setUserInfo(UserInfo info)
 {
+    //改之前先更新信息
+    this->logUser = info;
     //头像
-    ui->avatarBT->setIcon(QIcon(avatarPath));
+    ui->avatarBT->setIcon(QIcon(logUser.getAvatarName()));
 
     //用户名
-    ui->nameLabel->setText("用户名:"+name);
+    ui->nameLabel->setText("用户名:"+logUser.getName());
     //用户id
-    ui->idLabel->setText("ID:"+QString::number(id));
+    ui->idLabel->setText("ID:"+QString::number(logUser.getID()));
+}
+
+void Widget::setAvatar(UserInfo info)
+{
+    ui->avatarBT->setIcon(QIcon(info.getAvatarName()));
+}
+
+void Widget::setName(UserInfo info)
+{
+    ui->nameLabel->setText("用户名:"+info.getName());
 }
 
 void Widget::getFriendInfo()
@@ -216,7 +148,6 @@ void Widget::getFriendInfo()
     // 3. 创建新布局
     QVBoxLayout* layout = new QVBoxLayout(ui->friendList);
     layout->setContentsMargins(3, 3, 3, 3);
-    qDebug() << "[getFriendInfo] 获取好友数量：" << friendList->size();
     // 4. 创建好友按钮并添加进布局
     for (const auto& userInfo : *friendList) {
         QToolButton* btn = new QToolButton(ui->friendList);
@@ -232,15 +163,66 @@ void Widget::getFriendInfo()
         // 点击事件：在这里打开聊天窗口或切换聊天页面
         connect(btn, &QToolButton::clicked, this, [=]() {
             qDebug() << "点击了好友：" << userInfo.getName() << " ID:" << userInfo.getID();
-            //在这里调用打开聊天界面函数
+            showChatWithFriend(userInfo);
 
         });
     }
     layout->addStretch();
 }
+
+void Widget::initChatArea()
+{
+    // 顶部聊天对象名
+    chatFriendLabel = new QLabel(ui->dialogFrame);
+    chatFriendLabel->setGeometry(20, 5, 560, 40);
+    chatFriendLabel->setStyleSheet("color:rgb(41,97,253); padding: 5px;"
+                                   "border: 1px solid rgb(41,97,253);border-radius:15px;");
+    QFont font = chatFriendLabel->font();
+    font.setPointSize(14);
+    chatFriendLabel->setFont(font);
+    chatFriendLabel->setText("请点击好友开始聊天");
+
+    //所有消息都是往chatLayout里加的，
+    //chatLayout属于chatContentWidget，
+    //而chatContentWidget又被嵌入到了chatScrollArea里。
+    QScrollArea* chatScrollArea = new QScrollArea(ui->dialogFrame);
+    chatScrollArea->setGeometry(0, 50, 600, 400);
+    chatScrollArea->setWidgetResizable(true);
+
+    // 聊天内容布局区域，添加垂直布局chatLayout
+    QWidget* chatContentWidget = new QWidget();
+    chatLayout = new QVBoxLayout(chatContentWidget);
+    chatLayout->setAlignment(Qt::AlignTop);
+    chatLayout->setSpacing(10); //每条消息间距
+    chatLayout->setContentsMargins(10, 10, 10, 10);
+    chatScrollArea->setWidget(chatContentWidget);
+
+    // 聊天输入框
+    txt = new QTextEdit(ui->dialogFrame);
+    txt->setGeometry(0, 440, 600, 100);
+    txt->setStyleSheet("QTextEdit{background-color:rgb(255,255,255);border:none;"
+                       "border-bottom-right-radius:15px;border-top:1px solid rgb(41,97,253)}");
+    font = txt->font();
+    font.setPointSize(14);
+    txt->setFont(font);
+    txt->hide();
+
+    // 发送按钮
+    Send = new QToolButton(ui->dialogFrame);
+    Send->setText("发送");
+    Send->setGeometry(510, 500, 60, 30);
+    Send->setStyleSheet("QToolButton{background-color:rgb(85,170,255);color:rgb(41,97,253);"
+                        "border:1px solid rgb(41,97,253);border-radius:8px;}");
+    Send->hide();
+
+    // 发送槽函数
+    connect(Send, &QToolButton::clicked, this, &Widget::sendtxt);
+}
+
 //关闭窗口
 void Widget::on_closeButton_clicked()
 {
+    ClientController::getClientInstance()->requestLogout(logUser.getID());
     this->close();
 }
 
@@ -253,8 +235,8 @@ void Widget::on_minimizeButton_clicked()
 
 void Widget::on_friendsListBT_clicked()
 {
+    ClientController::getClientInstance()->requestFriendList(this->logUser);
     getFriendInfo();
-
     currentList->hide();
     currentList = ui->friendList;
     currentList->show();
@@ -268,12 +250,36 @@ void Widget::on_chatListBT_clicked()
     currentList->show();
 }
 
-//
+//好友管理三个控件
 void Widget::on_addFriend_clicked()
 {
     addFriend::getInstance(this)->show();
 }
+void Widget::on_deleteFriend_clicked()
+{
+    deleteFriend::getInstance(this)->show();
+}
+void Widget::on_friendRequest_clicked()
+{
+    // qDebug() << "Is pendingRequests empty? " << pendingRequests.isEmpty();
+    // qDebug() << "Size of pendingRequests: " << pendingRequests.size();
+    // for (const UserInfo& user : pendingRequests) {
+    //     qDebug() << "User ID:" << user.getID() << ", Name:" << user.getName();
+    // }
+    if (pendingRequests.isEmpty()) {
+        TipBox* box = new TipBox(ui->centralwidget);
+        box->setTip("当前没有新的好友请求!");
+        box->centerToParent();
+        box->exec();
+        return;
+    }
 
+    // 每次只弹一个
+    pendingRequests.dequeue();
+    frdManege::getInstance(this)->show();
+
+}
+//好友应答反馈，放到队列里面
 void Widget::handleFriendRequest(UserInfo info)
 {
     pendingRequests.enqueue(info); // 缓存到请求队列中
@@ -281,15 +287,119 @@ void Widget::handleFriendRequest(UserInfo info)
     window->setSender(info);
     window->setReceiverId(ClientController::getClientInstance()->getMyInfo().getID());
 }
-void Widget::on_friendRequest_clicked()
-{    if (pendingRequests.isEmpty()) {
-        TipBox* box = new TipBox;
-        box->setTip("当前没有新的好友请求!");
-        box->exec();
-        return;
-    }
-    // 每次只弹一个
-    pendingRequests.dequeue();
-    frdManege::getInstance(this)->show();
+//修改昵称，头像
+void Widget::on_changeAvatar_clicked()
+{
+    changeAvatar::getInstance(this)->show();
+}
+void Widget::on_changeName_clicked()
+{
+    changeName::getInstance(this)->show();
+}
+//展示自己的消息
+void Widget::showMyMsg(const QString& content)
+{
+    QWidget* msgWidget = new QWidget();
+    QHBoxLayout* layout = new QHBoxLayout(msgWidget);
+    layout->setContentsMargins(0, 0, 0, 0);
+    layout->setSpacing(10);
+
+    QLabel* avatar = new QLabel();
+    avatar->setFixedSize(40, 40);
+    avatar->setPixmap(QPixmap(logUser.getAvatarName()).scaled(40, 40, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+
+    QLabel* msgLabel = new QLabel(content);
+    msgLabel->setWordWrap(true);
+    msgLabel->setStyleSheet("background-color: #D1F2C9;"
+                            "border-radius: 15px;"
+                            "padding: 8px 12px;"
+                            "font-size: 14px;"
+                            "color: #000000;");
+    msgLabel->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
+
+    layout->addStretch();
+    layout->addWidget(msgLabel);
+    layout->addWidget(avatar);
+
+    chatLayout->addWidget(msgWidget);
+}
+//展示好友消息
+void Widget::showFriendMsg(const QString& content)
+{
+    QWidget* msgWidget = new QWidget(); // 放头像和消息
+    QHBoxLayout* layout = new QHBoxLayout(msgWidget);   // 水平布局
+    layout->setContentsMargins(0, 0, 0, 0);
+    layout->setSpacing(10);     // 头像与消息间距
+
+    QLabel* avatar = new QLabel();
+    avatar->setFixedSize(40, 40);
+    avatar->setPixmap(QPixmap(currentChatFriend.getAvatarName()).scaled(40, 40, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+
+    QLabel* msgLabel = new QLabel(content);
+    msgLabel->setWordWrap(true);
+    msgLabel->setStyleSheet("background-color: #E0F0FF;"
+                            "border-radius: 15px;"
+                            "padding: 8px 12px;"
+                            "font-size: 14px;"
+                            "color: #000000;");
+    msgLabel->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
+
+    layout->addWidget(avatar);
+    layout->addWidget(msgLabel);
+    layout->addStretch();           // 靠左
+    chatLayout->addWidget(msgWidget);
+}
+
+
+//发送消息
+void Widget::sendtxt()
+{
+    QString content = txt->toPlainText().trimmed();
+    if (content.isEmpty() || currentChatFriend.getID() == 0) return;
+
+    showMyMsg(content);  // 展示自己的消息
+    txt->clear();
+    //sqlite保存本地消息
+    DataBase::GetInstance()->addMsg(logUser.getID(),currentChatFriend.getID(),content);
+    //发送到服务器
+    ClientController::getClientInstance()->sendChatMessage(currentChatFriend.getID(), content);
+
 
 }
+//打开聊天界面
+void Widget::showChatWithFriend(const UserInfo& friendInfo)
+{
+    currentChatFriend = friendInfo;
+
+    // 更新顶部标签
+    chatFriendLabel->setText(friendInfo.getName() + " [" + QString::number(friendInfo.getID()) + "]");
+    //chatFriendLabel->show();
+
+    // 显示输入框和按钮
+    txt->show();
+    Send->show();
+
+    // 清空聊天输入框
+    txt->clear();
+
+    // 清除旧聊天记录（从chatLayout中移除所有 child）
+    QLayoutItem* item;
+    while ((item = chatLayout->takeAt(0)) != nullptr) {
+        if (item->widget()) {
+            delete item->widget();
+        }
+        delete item;
+    }
+
+    //加载聊天记录
+    auto history = DataBase::GetInstance()->loadChatHistory(logUser.getID(), friendInfo.getID());
+    for (const ChatMessage& msg : history) {
+        if (msg.getSender() == logUser.getID())
+            showMyMsg(msg.getContent());
+        else
+            showFriendMsg(msg.getContent());
+    }
+
+
+}
+

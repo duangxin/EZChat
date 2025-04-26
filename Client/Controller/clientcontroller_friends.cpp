@@ -23,6 +23,15 @@ void ClientController::declineFriendRequest(quint32 sender,quint32 receiver){
     sendMessageWhenConnected(std::move(message));
 }
 
+//删除好友
+void ClientController::requestDeleteFriend(quint32 receiver){
+
+    ChatMessage chat = ChatMessage(getMyInfo().getID(),receiver);
+    auto message = std::make_unique<Msg>(MsgType::REQUEST_DELETE_FRIEND,chat.toQByteArray());
+    sendMessageWhenConnected(std::move(message));
+}
+
+
 //添加新好友之后
 //将好友添加到现存的数据结构中
 void ClientController::dynamicAppendFriend(UserInfo _friend) {
@@ -30,6 +39,21 @@ void ClientController::dynamicAppendFriend(UserInfo _friend) {
     friendList.append(_friend);
     //为好友新建消息List
     chatMsgMap[_friend.getID()] = new QList<ChatMessage>;
+}
+//删除同上
+void ClientController::dynamicRemoveFriend(UserInfo _friend) {
+
+    for (int i = 0; i < friendList.size(); ++i) {
+        if (friendList[i].getID() == _friend.getID()) {
+            friendList.removeAt(i);
+            break;
+        }
+    }
+    quint32 friendID = _friend.getID();
+    if (chatMsgMap.contains(friendID)) {
+        delete chatMsgMap[friendID];
+        chatMsgMap.remove(friendID);
+    }
 }
 
 

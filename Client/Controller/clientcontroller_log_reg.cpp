@@ -25,6 +25,16 @@ void ClientController::requestLogin(quint32 id, QString password){
     sendMessageWhenConnected(std::move(message));
 
 }
+//登出
+void ClientController::requestLogout(quint32 id){
+
+    UserInfo tmp(id, "", "");
+    auto message = std::make_unique<Msg>(MsgType::REQUEST_LOGOUT, tmp.toQByteArray());
+
+    sendMessageWhenConnected(std::move(message));
+
+}
+
 //获取登录用户
 UserInfo& ClientController::getMyInfo(){
     loginHandler * tmp = (loginHandler *) ClientHandlerReg::GetInstance()->getHandler(MsgType::LOGIN_SUCCESS);

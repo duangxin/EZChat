@@ -11,11 +11,12 @@ TipBox::TipBox(QWidget *parent)
     this->setWindowFlags(Qt::FramelessWindowHint);     // 设置无边框窗口
     this->setWindowTitle("tipBox!");
 
-    // 创建一个 QFrame 作为背景
+    this->resize(300, 150);
+    // 创建一个 QFrame 作为圆角背景
     QFrame *background = new QFrame(this);
     background->resize(300, 150);
-    background->move(this->rect().center() - background->rect().center());//位于界面中间
-    background->setStyleSheet("background-color:white; border-radius: 15px;");
+    background->move(this->rect().center() - background->rect().center());
+    background->setStyleSheet("background-color: white; border-radius: 15px;");
 
     tip = new QLabel(background);
     tip->setAlignment(Qt::AlignCenter);
@@ -40,4 +41,20 @@ TipBox::~TipBox()
 void TipBox::setTip(QString str)
 {
     tip->setText(str);
+}
+
+void TipBox::centerToParent()
+{
+    if (parentWidget()) {
+        QWidget* parent = parentWidget();
+        QPoint parentPos = parent->geometry().topLeft();
+        QSize parentSize = parent->size();
+
+        this->adjustSize();  // 保证大小是最新的
+        QSize mySize = this->size();
+
+        int x = parentPos.x() + (parentSize.width() - mySize.width()) / 2;
+        int y = parentPos.y() + (parentSize.height() - mySize.height()) / 2;
+        this->move(x, y);
+    }
 }
